@@ -35,6 +35,7 @@ Full details and other clients (Claude Desktop, VS Code) are in [SKILL.md](SKILL
 - **ClawHub**: Install via [ClawHub](https://clawhub.ai) (search for "Cala MCP").
 - **Manual**: Copy the `SKILL.md` (and optional reference) into your skills directory, e.g. `~/.cursor/skills/cala-mcp/` or `.cursor/skills/cala-mcp/`.
 
+
 ## Links
 
 - [Cala MCP docs](https://docs.cala.ai/mcp)
