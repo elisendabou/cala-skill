@@ -1,0 +1,12 @@
+{
+  "name": "Cala MCP",
+  "tagline": "Connect OpenClaw and Cursor to Cala's MCP for verified knowledge search.",
+  "description": "This skill guides the agent to connect to Cala's Model Context Protocol (MCP). Once configured, the agent can use Cala's knowledge layer: natural-language knowledge search with sources, structured queries (e.g. startups by location and funding), and entity search by name or UUID. Setup requires a free API key from console.cala.ai and adding the Cala MCP server to your client config (e.g. ~/.cursor/mcp.json). Official documentation: https://docs.cala.ai/mcp.",
+  "category": "integrations",
+  "tags": ["cala", "mcp", "knowledge", "search", "cursor", "openclaw", "integration"],
+  "version": "1.0.0",
+  "license": "MIT",
+  "pricing": "free",
+  "support_url": "https://github.com/elisendabou/cala-openclaw/issues",
+  "homepage": "https://docs.cala.ai/mcp"
+}
