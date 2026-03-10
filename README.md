@@ -1,14 +1,21 @@
-# Cala MCP (OpenClaw / Cursor skill)
+# Cala skill for OpenClaw & Cursor
 
-Connect [OpenClaw](https://openclaw.ai) and [Cursor](https://cursor.com) to [Cala's MCP](https://docs.cala.ai/mcp) so the agent can use Cala's verified knowledge layer: natural-language search, structured queries, and entity lookup.
+Use [Cala](https://cala.ai)'s verified knowledge layer from your agent: natural-language search, structured queries, entity lookup. **Download from ClawHub, add your API key, then ask anything—the skill calls Cala for you.** No MCP required.
 
-## What this skill does
+## Install and use (ClawHub — like Tavily)
 
-- **When to use**: When the user wants to connect to Cala's MCP, set up Cala in Cursor or OpenClaw, or use Cala for knowledge search.
-- **Instructions**: How to get a Cala API key and add the MCP config to `~/.cursor/mcp.json` (and other clients).
-- **After connection**: The agent gains Cala tools (knowledge search, knowledge query, entity search, get entity, entity introspection).
+1. **Install the skill**
+   ```bash
+   clawhub login
+   clawhub install cala-mcp
+   ```
+   Or from git: `openclaw skills install https://github.com/elisendabou/cala-skill.git` or clone into your `skills/` directory.
 
-**Compatibility:** This skill ships both `SKILL.md` (for Cursor and OpenClaw workspace) and `skill.yaml` (for ClawHub and OpenClaw CLI installs) so it works with the widest range of setups.
+2. **Set your Cala API key** in the skill config (ClawHub or OpenClaw will prompt for it, or set `CALA_API_KEY` in the environment). Get a key at [console.cala.ai/api-keys](https://console.cala.ai/api-keys).
+
+3. **Ask your agent** — e.g. "Search Cala for the biggest AI startups in Europe" or "Find entity Apple in Cala". The skill runs `scripts/cala.sh` and returns Cala's answer. No MCP or MCPorter needed.
+
+**Verify:** From the skill directory run `CALA_API_KEY=your_key ./scripts/verify-cala.sh` to confirm the API key works.
 
 ## Quick setup (Cursor)
 
@@ -32,16 +39,35 @@ Connect [OpenClaw](https://openclaw.ai) and [Cursor](https://cursor.com) to [Cal
 
 Full details and other clients (Claude Desktop, VS Code) are in [SKILL.md](SKILL.md) and [docs.cala.ai/mcp](https://docs.cala.ai/mcp).
 
-## Install
+## Install (same as Tavily and other ClawHub skills)
 
-The repo includes both **SKILL.md** (Cursor and OpenClaw workspace) and **skill.yaml** (ClawHub and OpenClaw CLI) so it works across clients.
+Once this skill is published on ClawHub, anyone can install it the same way as Tavily:
 
-- **ClawHub**: Install via [ClawHub](https://clawhub.ai) (search for "Cala MCP") when published.
-- **Cursor**: Copy the skill folder into `~/.cursor/skills/cala-mcp/` (include `SKILL.md`). Restart Cursor.
-- **OpenClaw (workspace)**: Clone or copy into your OpenClaw workspace skills directory, e.g. `~/.openclaw/workspace/skills/cala-mcp/` or `./skills/cala-mcp/` in the workspace. Include `SKILL.md`. Refresh skills or restart the gateway.
-- **OpenClaw (user skills)**: `git clone https://github.com/elisendabou/cala-skill.git ~/.openclaw/skills/cala-mcp` then refresh/restart.
+```bash
+clawhub login
+clawhub install cala-mcp
+```
 
-No need to publish to ClawHub to use locally: install by placing the skill in the right directory for your client (see above).
+(Use the slug shown on ClawHub after publish; `cala-mcp` is the intended slug.)
+
+**Without ClawHub** (install from this repo):
+
+```bash
+# OpenClaw CLI (if your build supports it)
+openclaw skills install https://github.com/elisendabou/cala-skill.git
+
+# Or clone into your skills directory
+git clone https://github.com/elisendabou/cala-skill.git ~/.openclaw/skills/cala-mcp
+# or for workspace: git clone https://github.com/elisendabou/cala-skill.git ./skills/cala-mcp
+```
+
+Then set your Cala API key in skill config (or use MCP setup below for Cursor).
+
+**Cursor (MCP path):** To use Cala via MCP in Cursor instead of the script, copy the skill into `~/.cursor/skills/cala-mcp/` and add Cala to `~/.cursor/mcp.json` (see [Quick setup (Cursor)](#quick-setup-cursor)).
+
+**Publishing to ClawHub (for skill authors):** From this repo run `clawhub publish` (or use [clawhub.ai](https://clawhub.ai)) so others can `clawhub install cala-mcp`.
+
+**Verify (no MCP required):** From the skill directory, run `CALA_API_KEY=your_key ./scripts/verify-cala.sh`. It performs a real Cala API call (entity search for "Apple") and prints OK on success.
 
 ### Install on OpenClaw VPS (without ClawHub)
 
@@ -65,6 +91,8 @@ No need to publish to ClawHub to use locally: install by placing the skill in th
 4. **Refresh skills or restart OpenClaw** (e.g. restart the gateway / app) so it loads the new skill. If you use MCPorter, ensure that skill is enabled.
 
 5. In the OpenClaw UI or CLI, ask the agent to connect to Cala or search Cala; the skill will guide it (and users) through the config if needed.
+
+**If knowledge_search times out (e.g. after 120s):** Cala’s natural-language search can be slow. Increase MCPorter’s timeout (`timeoutMs` or `--mcporter-timeout-ms`, e.g. 180000–300000 ms). Test with a fast tool first (e.g. `entity_search` for "Apple") to confirm the connection. Prefer `knowledge_query` for list-style questions when possible. See **Troubleshooting** in [SKILL.md](SKILL.md).
 
 - [Cala MCP docs](https://docs.cala.ai/mcp)
 - [Cala](https://cala.ai) · [API keys](https://console.cala.ai/api-keys)

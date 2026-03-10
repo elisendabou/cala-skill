@@ -1,23 +1,35 @@
 # OpenClaw / ClawHub skill manifest
-# Same content as SKILL.md; this format is required by ClawHub and some OpenClaw CLI installs.
+# Install from ClawHub, set your Cala API key, then ask your agent to search Cala—the skill calls Cala for you. No MCP required.
 name: cala-mcp
 version: "1.0.0"
 author: elisendabou
-description: Connect OpenClaw or Cursor to Cala's MCP for verified knowledge search. Use when the user wants to connect to Cala MCP, set up Cala, get an API key, or use Cala's knowledge layer (knowledge search, knowledge query, entity search, get entity, entity introspection).
+description: Use Cala's verified knowledge layer from OpenClaw: natural-language search, structured queries, and entity lookup. Install the skill, add your Cala API key in config, then ask your agent anything—the skill runs scripts/cala.sh to call Cala's API. No MCP or MCPorter needed.
 
 license: MIT
 
 permissions:
   - network
 
-# No config required: user adds Cala MCP and API key to their client (e.g. ~/.cursor/mcp.json or OpenClaw MCP config).
+config:
+  cala_api_key:
+    type: string
+    required: true
+    description: "Your Cala API key (get one at https://console.cala.ai/api-keys)"
+    secret: true
 
 entryPoint:
   type: natural
   prompt: |
-    When the user wants to connect to Cala's MCP or use Cala for knowledge search:
-    1. Tell them to get an API key from https://console.cala.ai/api-keys
-    2. Tell them to add the Cala MCP server to their client config. For Cursor, edit ~/.cursor/mcp.json and add under mcpServers: "Cala" with url "https://api.cala.ai/mcp/" and headers "X-API-KEY": "<their key>". For Claude Desktop use npx mcp-remote with the same URL and header. For VS Code use .vscode/mcp.json with type http, same url and headers. For OpenClaw with MCPorter: they need the MCPorter skill installed and must add Cala to ~/.mcporter/mcporter.json or config/mcporter.json (same url and X-API-KEY header); MCPorter is what lets OpenClaw call MCP servers. For other OpenClaw setups use that setup's MCP config.
-    3. Tell them to restart the client so the MCP server loads.
-    4. After connection they get tools: knowledge_search (natural language), knowledge_query (structured filters), entity_search, get_entity, entity_introspection. Point them to https://docs.cala.ai/mcp for full docs.
-    For full step-by-step instructions and client-specific details, read SKILL.md in this skill directory.
+    You have access to Cala's verified knowledge layer via a script in this skill. When the user asks to search Cala, query Cala, find something in Cala, or look up an entity (company, person, etc.), run the script and return the result.
+
+    Script path: scripts/cala.sh (run from the skill root directory). The script needs CALA_API_KEY in the environment; it is provided by the skill config (or set CALA_API_KEY in the environment).
+
+    Subcommands:
+    - search <natural language question> — for open-ended questions, e.g. "What are the biggest AI startups in Europe?" or "Who founded Stripe?"
+    - entity <name> — to find an entity by name, e.g. "Apple" or "Mistral AI"
+    - query <structured query> — for filtered lists, e.g. "startups.location=Spain.funding>10M" or "companies.industry=fintech.founded_year>=2020"
+
+    Run the script with the appropriate subcommand and the user's question or query as the remaining arguments. Example: CALA_API_KEY=<from config> ./scripts/cala.sh search "What are the biggest AI startups in Europe?"
+    Parse the JSON output and present the answer clearly to the user (e.g. show the "content" field for search, "results" or "entities" for query/entity). If the script returns an error, explain it and suggest checking the API key at https://console.cala.ai/api-keys.
+
+    For setup-only questions (how to connect Cala MCP in Cursor, etc.), use SKILL.md in this directory.
