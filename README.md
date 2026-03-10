@@ -43,8 +43,28 @@ The repo includes both **SKILL.md** (Cursor and OpenClaw workspace) and **skill.
 
 No need to publish to ClawHub to use locally: install by placing the skill in the right directory for your client (see above).
 
+### Install on OpenClaw VPS (without ClawHub)
 
-## Links
+1. **SSH into your VPS** and go to the OpenClaw app/workspace directory (e.g. where OpenClaw is installed or where your workspace lives).
+
+2. **Clone the skill** into OpenClaw’s skills directory. Use whichever your setup uses:
+   - **User skills** (all workspaces):  
+     `git clone https://github.com/elisendabou/cala-skill.git ~/.openclaw/skills/cala-mcp`
+   - **Workspace skills** (this project only):  
+     `cd /path/to/openclaw-workspace && git clone https://github.com/elisendabou/cala-skill.git ./skills/cala-mcp`
+
+3. **If you use MCPorter** (so OpenClaw can call MCP servers), add Cala to MCPorter’s config. Edit `~/.mcporter/mcporter.json` or `./config/mcporter.json` in the workspace and add Cala under your servers (same shape as Cursor):
+   ```json
+   "Cala": {
+     "url": "https://api.cala.ai/mcp/",
+     "headers": { "X-API-KEY": "YOUR_CALA_API_KEY" }
+   }
+   ```
+   Get an API key at [console.cala.ai/api-keys](https://console.cala.ai/api-keys). If Cala is already in `~/.cursor/mcp.json`, MCPorter may pick it up from there.
+
+4. **Refresh skills or restart OpenClaw** (e.g. restart the gateway / app) so it loads the new skill. If you use MCPorter, ensure that skill is enabled.
+
+5. In the OpenClaw UI or CLI, ask the agent to connect to Cala or search Cala; the skill will guide it (and users) through the config if needed.
 
 - [Cala MCP docs](https://docs.cala.ai/mcp)
 - [Cala](https://cala.ai) · [API keys](https://console.cala.ai/api-keys)
