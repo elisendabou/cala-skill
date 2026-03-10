@@ -17,7 +17,7 @@ entryPoint:
   prompt: |
     When the user wants to connect to Cala's MCP or use Cala for knowledge search:
     1. Tell them to get an API key from https://console.cala.ai/api-keys
-    2. Tell them to add the Cala MCP server to their client config. For Cursor, edit ~/.cursor/mcp.json and add under mcpServers: "Cala" with url "https://api.cala.ai/mcp/" and headers "X-API-KEY": "<their key>". For Claude Desktop use npx mcp-remote with the same URL and header. For VS Code use .vscode/mcp.json with type http, same url and headers. For OpenClaw use the MCP config location that their setup expects (same JSON shape).
+    2. Tell them to add the Cala MCP server to their client config. For Cursor, edit ~/.cursor/mcp.json and add under mcpServers: "Cala" with url "https://api.cala.ai/mcp/" and headers "X-API-KEY": "<their key>". For Claude Desktop use npx mcp-remote with the same URL and header. For VS Code use .vscode/mcp.json with type http, same url and headers. For OpenClaw with MCPorter: they need the MCPorter skill installed and must add Cala to ~/.mcporter/mcporter.json or config/mcporter.json (same url and X-API-KEY header); MCPorter is what lets OpenClaw call MCP servers. For other OpenClaw setups use that setup's MCP config.
     3. Tell them to restart the client so the MCP server loads.
     4. After connection they get tools: knowledge_search (natural language), knowledge_query (structured filters), entity_search, get_entity, entity_introspection. Point them to https://docs.cala.ai/mcp for full docs.
     For full step-by-step instructions and client-specific details, read SKILL.md in this skill directory.

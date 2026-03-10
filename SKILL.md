@@ -39,7 +39,8 @@ Replace `YOUR_CALA_API_KEY` with the key from the console. Restart Cursor so the
 
 - **Claude Desktop**: Settings → Developer → Edit Config. Use the same `url` and pass the API key via `npx mcp-remote` with `--header "X-API-KEY: YOUR_CALA_API_KEY"`. See [Cala MCP docs](https://docs.cala.ai/mcp).
 - **VS Code**: Add to `.vscode/mcp.json` under `servers.Cala` with `type: "http"`, `url: "https://api.cala.ai/mcp/"`, and `headers["X-API-KEY"]`.
-- **OpenClaw**: Use the same JSON shape in the MCP config location your OpenClaw setup expects (often similar to Cursor’s `mcp.json` or project-level MCP config).
+- **OpenClaw (with MCPorter)**: OpenClaw needs the **MCPorter** skill to call MCP servers. Install MCPorter if needed (`npm install -g mcporter`). Add Cala to MCPorter config: `~/.mcporter/mcporter.json` or `./config/mcporter.json` in the workspace. Use the same shape as Cursor (e.g. under `mcpServers` or `servers`: `"Cala"` with `url: "https://api.cala.ai/mcp/"` and `headers: { "X-API-KEY": "YOUR_CALA_API_KEY" }`). MCPorter can also merge from Cursor’s `~/.cursor/mcp.json`, so if Cala is already there it may be picked up. Ensure the MCPorter skill is active in OpenClaw so the agent can call Cala’s tools.
+- **OpenClaw (other)**: If your setup uses a different MCP bridge, add Cala to that config (same URL and `X-API-KEY` header).
 
 ## After connection
 
